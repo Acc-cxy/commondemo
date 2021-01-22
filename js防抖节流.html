@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>防抖</title>
+</head>
+<body>
+	<input type="text" id="input" />
+	<script>
+		function input(val){
+			console.log(val)
+		}
+		const ipt = document.getElementById("input");
+		// 防抖函数
+		function debouce(func,delay){
+			let timer = null;
+			return function(...args){
+				clearInterval(timer);
+				timer = setTimeout(()=>{
+					func.apply(this,args)
+				},delay)
+				console.log(timer,delay)
+			}
+		}
+		const open = debouce(input,1000)
+		ipt.addEventListener("keyup",function(e){
+			// console.log(e.target.value)
+			open(e.target.value)
+		})
+	</script>
+</body>
+</html>
+

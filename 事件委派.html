@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .wrap{
+            width: 200px;
+            height: 200px;
+            margin: 100px auto;
+            padding: 50px 0;
+            background-color: #ccc;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <h1 class="title">我是段落，点我文字变红</h1>
+        <div id="tex">我是div,点我背景变蓝</div>
+        <span>我是span，点我大小变30px</span>
+    </div>
+    <script>
+        //事件委派 
+        var objWrap=document.querySelector('.wrap');
+        objWrap.onclick=function(e){
+            var elm=e.target;
+			console.log(e)
+            if(elm.className==='title'){
+                elm.style.color='red';
+				elm.innerHTML = "RKO"
+            }else if(elm.id==='tex'){
+                elm.style.backgroundColor='skyblue'
+            }else if(elm.tagName==='SPAN'){
+                elm.style.fontSize='30px';
+            }
+        }
+    </script>
+</body>
+</html>

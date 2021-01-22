@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<font color="red">*</font>上传图片：
+		<input type="file" id="imgurl" capture="camera" accept="image/png,image/gif,image/jpeg"/>
+		 
+		
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+		<script>
+			var image = '';
+			//图片转换为base64编码
+			$('input[type=file]').on('change',function(){
+			var reader=new FileReader();
+			  reader.onload=function(e){
+			  console.log( reader.result);  //或者 e.target.result都是一样的，都是base64码
+			}  
+			reader.readAsDataURL(this.files[0])
+			//filses就是input[type=file]文件列表，files[0]就是第一个文件，这里就是将选择的第一个图片文件转化为base64的码
+			})
+		</script>
+	</body>
+</html>

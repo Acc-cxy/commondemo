@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			class promisemax{
+				constructor(executor) {
+				    this.state = 'pending';
+					this.value = undefined;
+					this.reason = undefined;
+					// 成功存放的数组
+					this.onResolvedCallbacks = [];
+					// 失败存放法数组
+					this.onRejectedCallbacks = [];
+					let resolve = value => {
+						if(this.state == 'pending'){
+							this.state = 'resolve';
+							this.value = value;
+							console.log(this.value)
+							this.onResolvedCallbacks.forEach(fn=>fn());
+						}
+					};
+					let reject = reason =>{
+						if(this.state == 'pending'){
+							this.state = 'reject';
+							this.reason = reason;
+							this.onRejectedCallbacks.forEach(fn=>fn());
+						}
+					}
+					try{
+						executor(resolve,reject)
+					}catch(arr){
+						reject(arr)
+					}
+				}
+				then(onfullfiled,onreject){
+					if(this.state == 'resolve'){
+						onfullfiled(this.value)
+					}
+					if(this.state == 'reject'){
+						onreject(this.value)
+					}
+					if(this.state == 'pending'){
+						this.onResolvedCallbacks.push(()=>{
+							onfullfiled(this.value)
+						})
+						this.onRejectedCallbacks.push(()=>{
+							onreject(this.value)
+						})
+					}
+				}
+			}
+
+			new promisemax((res,req)=>{
+				res("halo")
+			}).then(res=>{
+				console.log(res)
+				return new promisemax((res,req)=>{
+					res("halotwo")
+				})
+			})
+
+
+
+			// function prothen(executor){
+			// 	let that = this;
+			// 	that.$stats = "pending";
+			// 	that.succescallback = undefined;
+			// 	that.errorcallback = undefined;
+			// 	that.error = undefined;
+			// 	executor(res.bind(that),req.bind(that))
+			// 	function res(parmas){
+			// 		if(that.$stats == "pending"){
+			// 			that.$stats == "fulling"
+			// 			that.succescallback(parmas)
+			// 		}
+			// 	}
+			// 	function req(parmas){
+			// 		if(that.$stats == "pending"){
+			// 			that.$stats == "fulling"
+			// 			that.errorcallback(parmas)
+			// 		}
+			// 	}
+			// }
+			// prothen.prototype.then = function(full,fail){
+			// 	this.succescallback = full
+			// 	this.errorcallback = fail
+			// }
+			// new prothen((res,req)=>{
+			// 	setTimeout(()=>{
+			// 		res("测试",1)
+			// 	},1000)
+			// }).then((req,res) =>{
+			// 	console.log(req)
+			// })
+
+
+		// 	function Promi(executors) {
+		// 	  executors(resolve, reject);
+		// 	  function resolve() {
+		// 		  console.log(1)
+		// 	  }
+		// 	  function reject() {
+		// 		  console.log(2)
+		// 	  }
+		// 	}
+		// 	var pro = new Promi((res,req)=>{
+		// 		setTimeout(()=>{
+		// 			res()
+		// 			req()
+		// 		},3000)
+		// 	})
+		// 	var pros = new Promise((res,req)=>{
+		// 		setTimeout(()=>{
+		// 			res("测试")
+		// 		},3000)
+		// 	}).then((data)=>{
+		// 		console.log(data)
+		// 		setTimeout(()=>{
+		// 			return data
+		// 		},1000)
+		// 	}).then((data)=>{
+		// 		console.log(data)
+		// 	})
+
+		// function Promitwo(executor){
+		// 	let that = this;
+		// 	that.$$tass = "pending"
+		// 	executor(res.bind(this),req.bind(this))
+		// 		function res(a){
+		// 			if(that.$$tass == "pending"){
+		// 				that.$$tass == "fulling"
+		// 				console.log(a)
+		// 			}
+		// 		}
+		// 		function req(){
+		// 			if(that.$$tass == "pending"){
+		// 				that.$$tass == "fulling"
+		// 			}
+		// 		}
+		// }
+		// var protwo = new Promitwo((res,req)=>{
+		// 	res(1)
+		// })、
+
+		</script>
+	</body>
+</html>

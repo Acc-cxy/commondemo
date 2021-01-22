@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title></title>
+</head>
+<body>
+	
+	<script>
+		let arr = [1,2,3,2,3,4]
+		function arrfilter(arrs,item){
+			return arrs.filter(res=>{
+				return res != item;
+			})
+		}
+		const a = arrfilter(arr,2)
+		function arrmap(arrs,item){
+			let rescount = 0
+			arrs.map(res=>{
+				if(res != item){
+					rescount++
+				}
+			})
+			return rescount
+		}
+		const b = arrmap(arr,2)
+		console.log(b)
+	</script>
+</body>
+</html>

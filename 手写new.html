@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<script>
+			// function myNew() {
+			//   var constr = Array.prototype.shift.call(arguments);
+			//   var obj = Object.create(constr.prototype);
+			//   var result = constr.apply(obj, arguments);
+			//   return result instanceof Object? result : obj;
+			// }
+			function 士兵(ID){
+			  this.ID = ID
+			  this.生命值 = 42
+			}
+			士兵.prototype = {
+			  兵种:"美国大兵",
+			  攻击力:5,
+			  行走:function(){ /*走俩步的代码*/},
+			  奔跑:function(){ /*狂奔的代码*/  },
+			  死亡:function(){ /*Go die*/    },
+			  攻击:function(){ /*糊他熊脸*/   },
+			  防御:function(){ /*护脸*/       }
+			}
+			var 士兵们 = []
+			for(var i=0; i<100; i++){
+			  士兵们.push(new 士兵(i))
+			}
+			console.log(士兵们)
+		</script>
+	</body>
+</html>

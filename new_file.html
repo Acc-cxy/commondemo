@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title></title>
+</head>
+<body>
+	
+	
+	<script>
+		setTimeout(()=>console.log("d"),0)
+		var r = new Promise(function(resolve,reject){
+			resolve()
+		})
+		r.then(()=>{
+			var begin = Date.now();
+			while(Date.now() - begin<1000);
+			console.log("c1")
+			new Promise(function(resolve,reject){
+				resolve()
+			}).then(()=>console.log("c2"))
+		})
+	</script>
+</body>
+</html>

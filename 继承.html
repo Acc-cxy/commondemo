@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+		<button @click="Child0();">open</button>
+	<body>
+		<script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script>
+			
+			function Parent0(){
+			    this.name = "parent0";
+			    this.colors = ["red","blue","yellow"];
+				console.log(1)
+			}
+			function Child0(){
+			    Parent0.call( this ); // 或apply
+			    this.type = "child0";
+			}
+			 // Parent0
+			// new Child0().colors; // (3) ["red", "blue", "yellow"]
+			// console.log(Child0.name)
+			
+			
+			
+			
+			// let user = {
+			//   name: "John",
+			//   surname: "Smith",
+			
+			//   set fullName(value) {
+			//     [this.name, this.surname] = value.split(" ");
+			// 	// console.log(1,[this.name,this.surname])
+			//   },
+			//   get fullName() {
+			//     return `${this.name} ${this.surname}`;
+			//   }
+			  
+			// };
+			// let admin = {
+			//   __proto__: user,
+			//   isAdmin: true //继承
+			// };
+			
+			// console.log(admin.fullName); // John Smith 
+			
+			// // setter triggers!
+			// admin.fullName = "Alice Cooper";
+			
+			// console.log(admin.fullName); // Alice Cooper，admin 的内容被修改了
+			// console.log(user.fullName);  // John Smith，user 的内容被保护了
+		</script>
+	</body>
+</html>
