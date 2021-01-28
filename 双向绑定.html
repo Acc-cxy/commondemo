@@ -17,10 +17,10 @@
 				return obj
 			},
 			set:function(newValue){
-				console.log(obj)
 				document.getElementById('txt').value = newValue
 				document.getElementById('show').innerHTML = newValue
-			}
+			},
+
 		})
 		document.addEventListener('keyup',(e)=>{
 			obj.txt = e.target.value

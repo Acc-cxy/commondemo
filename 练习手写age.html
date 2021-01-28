@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        Function.prototype.myapply = function (context) {
+            if(context == undefined || context == null){
+                context = window;
+            }
+            let fn = Symbol()
+            context[fn] = this;
+            let args = [...arguments][1]
+            let result;
+            if(args){
+                result = context[fn](...args);
+            }else {
+                result = context[fn]();
+            }
+            delete context[fn];
+            return result;
+        }
+        Function.prototype.mycall = function (context) {
+            let fn = Symbol();
+            context[fn] = this;
+            const args = [...arguments].splice(1);
+            let result = context[fn](...args);
+            delete context[fn];
+            return result;
+        }
+        Function.prototype.mybind = function (context) {
+            const fn = this;
+            const args = [...arguments].splice(1)
+            return function (){
+                const newargs = args.concat([...arguments])
+                return fn.myapply(context,...newargs)
+            }
+        }
+        const per1 = {
+            fn: function(t,s,q) {
+                console.log(this.res + t + s + q)
+            }
+        }
+        const per2 = {
+            res : "success",
+        }
+        per1.fn.myapply(per2,[1,2,3])
+        per1.fn.mycall(per2,1,2,3)
+        per1.fn.mybind(per2,[1,2,3])()
+        class mypromise{
+            constructor(executor) {
+                let that = this;
+                that.state = "pending";
+                that.value = undefined;
+                that.reason = undefined;
+                that.successcallbak = [];//成功回调
+                that.errorcallback = [];
+                let resolve = val => {
+                    that.state = "success";
+                    that.value = val;
+                    that.successcallbak.forEach(fn=>fn())
+                    console.log(val)
+                }
+                let reject = val =>{
+                    that.state = "error"
+                    that.reason = val;
+                    that.errorcallback.forEach(fn=>fn())
+                }
+                try{
+                    executor(resolve,reject)
+                }catch (arr) {
+                    reject(arr)
+                }
+            }
+            then(onresolve,onreject){
+                if(this.state == "success"){
+                    onresolve(this.value)
+                }
+                if(this.state == "error"){
+                    onreject(this.value)
+                }
+                if(this.state == "pending"){
+                    this.successcallbak.push(()=>{
+                        onresolve(this.value)
+                    })
+                }
+            }
+        }
+        new mypromise((res,req)=>{
+            setTimeout(()=>{
+                res('1')
+            },300)
+        }).then(val =>{
+            console.log(val)
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<script>
+			function getFullName({ firstName, lastName }) {
+				console.log(firstName,lastName)
+			}
+			let a = {"firstName":2,"lastName":2}
+			getFullName(a)
+			
+			function as(...Argument){
+				console.log(Argument)
+			}
+			as(1,12)
+			
+			// const arr = [1, 2, 3, 4];
+			
+			// // bad
+			// // const first = arr[0];
+			// // const second = arr[1];
+			
+			// // good
+			// const [first, second] = arr;
+			
+			// console.log([first, second])
+		</script>
+	</body>
+</html>

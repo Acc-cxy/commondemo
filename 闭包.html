@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        function fun1(){
+            var str="外部函数变量";
+            console.log(str)
+            function fun2(d){
+                console.log(d);
+            }
+            return fun2;//在fun1函数内部返回
+        }
+        var result=fun1();
+        result(1)
+        result(3)
+
+        function f1(a) {
+            function f2() {
+                console.log(a);
+            }
+            return f2;
+        }
+        // var fun = f1(1);
+        setTimeout(f1(122),1000);
+    </script>
+</body>
+</html>

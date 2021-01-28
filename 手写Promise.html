@@ -19,7 +19,6 @@
 						if(this.state == 'pending'){
 							this.state = 'resolve';
 							this.value = value;
-							console.log(this.value)
 							this.onResolvedCallbacks.forEach(fn=>fn());
 						}
 					};
@@ -53,11 +52,13 @@
 					}
 				}
 			}
-
+			console.log(promisemax.prototype)
 			new promisemax((res,req)=>{
-				res("halo")
+				setTimeout(()=>{
+					res("halo")
+				},2000)
+
 			}).then(res=>{
-				console.log(res)
 				return new promisemax((res,req)=>{
 					res("halotwo")
 				})

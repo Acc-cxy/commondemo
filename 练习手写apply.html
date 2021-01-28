@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        Function.prototype.myapply = function(context){
+            if(context == undefined || context == null){
+                context = window;
+            }
+            const fn = Symbol();
+            context[fn] = this;
+            let args = arguments[1]
+            let result ;
+            if(args){
+                result = context[fn](...args)
+            }else {
+                result = context[fn]
+            }
+            delete context[fn]
+            return result
+        }
+        Function.prototype.mycall = function (context) {
+            if(typeof context !== 'object'){
+                throw new TypeError('TypeError, Expected for object');
+            }
+            if(context == undefined || context == null){
+                context = window;
+            }
+            const fn = Symbol();
+            context[fn] = this;
+            let args = [...arguments].splice(1);
+            let result = context[fn](...args);
+            delete context[fn];
+            return result;
+        }
+        Function.prototype.mybind = function (context) {
+            let fn = this;
+            let args = [...arguments].splice(1);
+            return function () {
+                let newargs = args.concat([...arguments])
+                return fn.myapply(context,newargs)
+            }
+        }
+
+        const per = {
+            fullName:function (t,s) {
+                console.log(this.firstName  + "----halo---"  + this.lastName + t +s)
+            }
+        }
+        const per2 = {
+            firstName: "Bill",
+            lastName: "Gates"
+        }
+        per.fullName.myapply(per2,[11,2])
+        per.fullName.mycall(per2,11,2)
+        per.fullName.mybind(per2,11,2)()
+        per::(per2);
+        class mypromise{
+            constructor(executor){
+                let that = this;
+                that.state = "pending";
+                that.value = undefined;
+                that.reason = undefined;
+                // 成功存放的数组
+                that.onResolvedCallbacks = [];
+                // 失败存放法数组
+                that.onRejectedCallbacks = [];
+                let resolve = value => {
+                    if(that.state == "pending"){
+                        console.log(value);
+                        that.state = "success";
+                        that.value = value;
+                        that.onResolvedCallbacks.forEach(fn=>fn())
+                    }
+                }
+                let reject = value =>{
+                    if(that.state == "pending"){
+                        console.log(value);
+                        that.state = "error";
+                        that.reason = value;
+                        that.onResolvedCallbacks.forEach(fn=>fn())
+                    }
+                }
+                try{
+                    executor(resolve,reject)
+                }catch (arr) {
+                    reject(arr)
+                }
+            }
+            then(onfullied,onreject){
+                if(this.state == "success"){
+                    onfullied(this.value)
+                }
+                if(this.state == "error"){
+                    onreject(this.value)
+                }
+                if(this.state == "pending"){
+                    this.onResolvedCallbacks.push(()=>{
+                        onfullied(this.value)
+                    })
+                    this.onRejectedCallbacks.push(()=>{
+                        onreject(this.value)
+                    })
+                }
+            }
+        }
+        let mypro = new mypromise((res,req)=>{
+            return res("123")
+        }).then( res =>{
+            console.log(res)
+        })
+    </script>
+</body>
+</html>
