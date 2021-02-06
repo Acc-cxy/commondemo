@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			p.id{
+				width: 100px;
+				height: 200px;
+				background: #222222;
+				display: block;
+			}
+		</style>
+	</head>
+	
+	<button onclick="getElementById('demo').innerHTML=Date()">现在的时间是?</button>
+	<p id="demo"></p>
+	
+	<p class="id"></p>
+	<p class="id"></p>
+	<p class="id"></p>
+	<p class="id"></p>
+	<p class="id"></p>
+	<p class="id"></p>
+	<p class="id"></p>
+	<p class="id"></p>
+	
+	<div id="div" >
+		<ul>
+
+		</ul>
+	</div>
+	
+	<body>
+
+
+
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script>
+			var LockMore = false;
+			$(window).scroll(function(event) {
+				var wScrollY = window.scrollY; // 当前滚动条位置
+				var wInnerH = window.innerHeight; // 设备窗口的高度（不会变）
+				var bScrollH = document.body.scrollHeight; // 滚动条总高度
+				if (wScrollY + wInnerH >= bScrollH) { //开始运行ajax调用数据
+					$.ajax({
+						// 本地接口
+						url: "http://8.131.236.131:8001/api/blog/list",//API数据接口
+						// node.js接口
+						// url: "http://127.0.0.1:8081/address",//API数据接口
+						// url:"http://127.0.0.1:8000/api/user/login",
+						// ps:当没有api数据口，可以用json文件制作个本地数据库，创造出一个接口
+						type: 'GET',//请求方式（大多以get请求或post请求）
+						// dataType: 'application/json',//数据，json字符串
+						dataType:'json',
+						
+						//请求成功数据调用
+						success: function(res) {
+							console.log(res)//打印数据、找到数据
+							var li = "";
+							$(res.list).each(function() {
+								li += "<li>" + this.id + "</li>";
+							})//数据拼接
+							console.log(li)
+							$("ul").append(li)//将数据渲染到页面上
+							
+						},
+						//请求失败，包含具体的错误信息
+						error: function(err) {
+							console.log(err.status);
+							console.log(err.responseText);
+						}
+					})
+				} if (LockMore) {
+					return false;
+				}
+			});
+			
+			
+			
+			
+			
+		</script>
+	</body>
+</html>
